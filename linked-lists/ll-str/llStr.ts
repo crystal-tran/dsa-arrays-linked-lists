@@ -1,5 +1,7 @@
 /** IndexError: raised when index not found. */
 
+import { createRoutesFromElements } from "react-router-dom";
+
 class IndexError extends Error {
 }
 
@@ -40,11 +42,28 @@ class LLStr {
   /** push(val): add new value to end of list. */
 
   push(val: string): void {
+    const newNode = new NodeStr(val);
+
+    if(this.head === null) this.head = newNode;
+
+    if(this.tail !== null) this.tail.next = newNode;
+
+    this.tail = newNode;
+    this.length += 1;
   }
 
   /** unshift(val): add new value to start of list. */
 
   unshift(val: string): void {
+    const newNode = new NodeStr(val);
+
+    if(this.head === null){
+      this.head === newNode;
+      this.tail === newNode;
+    }
+    this.unshift(val);
+    this.head === newNode;
+    this.length += 1;
   }
 
   /** pop(): return & remove last item.
@@ -53,7 +72,19 @@ class LLStr {
    **/
 
   pop(): string {
-    return "x";
+
+    if(this.head === null){
+      throw new IndexError;
+    }
+
+    let current = this.head;
+    for(let i = 0; i < this.length; i++){
+      if(current.next === this.tail){
+        this.tail === current
+        current.next === null;
+        return this.pop()
+      }
+    }
   }
 
   /** shift(): return & remove first item.
