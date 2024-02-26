@@ -77,14 +77,30 @@ class LLStr {
       throw new IndexError;
     }
 
+    let returnedVal : string | null = null;
+
+    if(this.length === 1){
+      returnedVal = this.head.val;
+      this.head = null;
+      this.tail = null;
+      this.length -= 1;
+      return returnedVal;
+    }
+
     let current = this.head;
-    for(let i = 0; i < this.length; i++){
-      if(current.next === this.tail){
-        this.tail === current
+
+    while (current.next !== null){
+      current = current.next
+      if (current.next === this.tail){
+        returnedVal = this.tail!.val
+        this.tail === current;
         current.next === null;
-        return this.pop()
       }
     }
+
+    this.length -= 1;
+
+    return returnedVal!;
   }
 
   /** shift(): return & remove first item.
@@ -93,8 +109,27 @@ class LLStr {
    **/
 
   shift(): string {
-    return "x";
+    if (this.head === null){
+      throw new IndexError;
+    }
+
+    let returnedVal : string | null = null;
+
+    if(this.length === 1){
+      returnedVal = this.head.val;
+      this.head = null;
+      this.tail = null;
+      this.length -= 1;
+      return returnedVal;
+    }
+
+    returnedVal = this.head.val;
+    this.head = this.head.next;
+    this.length -= 1;
+
+    return returnedVal;
   }
+
 
   /** getAt(idx): get val at idx.
    *
