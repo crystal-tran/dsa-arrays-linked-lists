@@ -192,20 +192,17 @@ class LLStr {
 
     let current = this.head;
 
-    if (idx === this.length - 1){
-      while (current!.next !== this.tail){
-        current = current!.next
-      }
-      this.tail = newNode;
-      this.length += 1;
-    }
-
     for(let i = 0; i < idx - 1; i++){
       current = current!.next;
     }
 
     newNode.next = current!.next;
     current!.next = newNode
+
+    if (idx === this.length){
+      this.tail = newNode;
+    }
+
     this.length += 1;
   }
 
