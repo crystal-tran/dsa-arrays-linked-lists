@@ -58,10 +58,12 @@ class LLStr {
   unshift(val: string): void {
     const newNode = new NodeStr(val);
 
-    if(this.head === null){
+    if(this.length === 0){
       this.head === newNode;
       this.tail === newNode;
     }
+
+    // ["b", "c"]
 
     newNode.next === this.head;
     this.head === newNode;
@@ -208,12 +210,41 @@ class LLStr {
     if(idx < 0 || idx >= this.length){
       throw new IndexError;
     }
-    //idx is zero - set head to the next item and return the head
-    //idx is equal to length?  - set the tail to be the previous item
 
     let current = this.head;
 
-    return "x";
+    let returnedVal : string | null = null;
+
+    //idx is zero - set head to the next item and return the head
+    if (idx === 0){
+      returnedVal = current!.val;
+      this.head = current!.next
+      this.length -= 1;
+      return returnedVal;
+    }
+
+    //idx is equal to length?  - set the tail to be the previous item
+    if (idx === this.length - 1){
+      while (current!.next !== this.tail){
+        current = current!.next
+      }
+      returnedVal = this.tail!.val;
+      current!.next = null;
+      this.tail = current;
+      this.length -= 1;
+      return returnedVal;
+
+    }
+
+    // [1,2,3,4,7] idx = 1
+    for (let i = 0; i < idx - 1; i++){
+      current = current!.next;
+    }
+    returnedVal = current!.next!.val;
+    current!.next = current!.next!.next
+    this.length -= 1;
+
+    return returnedVal;
   }
 
   /** toArray (useful for tests!) */
