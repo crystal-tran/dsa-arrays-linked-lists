@@ -147,7 +147,7 @@ describe("insertAt", function () {
     expect(lst.head!.val).toBe("0");
     expect(lst.tail!.val).toBe("b");
     expect(lst.length).toBe(4);
-// [0, a, 1, b, 4]
+
     lst.insertAt(4, "4");
     expect(lst.head!.val).toBe("0");
     expect(lst.tail!.val).toBe("4");
