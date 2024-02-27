@@ -1,6 +1,7 @@
 /** IndexError: raised when index not found. */
 
 import { createRoutesFromElements } from "react-router-dom";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 class IndexError extends Error {
 }
@@ -61,7 +62,8 @@ class LLStr {
       this.head === newNode;
       this.tail === newNode;
     }
-    this.unshift(val);
+
+    newNode.next === this.head;
     this.head === newNode;
     this.length += 1;
   }
@@ -137,7 +139,16 @@ class LLStr {
    **/
 
   getAt(idx: number): string {
-    return "x";
+    if(idx < 0 || idx >= this.length){
+      throw new IndexError;
+    }
+
+    let current = this.head;
+    for(let i = 0; i < idx; i++){
+      current = current!.next;
+    }
+
+    return current!.val;
   }
 
   /** setAt(idx, val): set val at idx to val.
@@ -146,6 +157,16 @@ class LLStr {
    **/
 
   setAt(idx: number, val: string): void {
+    if(idx < 0 || idx >= this.length){
+      throw new IndexError;
+    }
+
+    let current = this.head;
+    for(let i = 0; i < idx; i++){
+      current = current!.next;
+    }
+
+    current!.val = val
   }
 
   /** insertAt(idx, val): add node w/val before idx.
@@ -154,6 +175,28 @@ class LLStr {
    **/
 
   insertAt(idx: number, val: string): void {
+    const newNode = new NodeStr(val);
+
+    if(idx < 0 || idx >= this.length){
+      throw new IndexError;
+    }
+
+    if(idx === 0){
+      this.head = newNode;
+      if(this.length === 1){
+        this.tail = newNode;
+        length += 1;
+      }
+    }
+
+    let current = this.head;
+
+    for(let i = 0; i < idx - 1; i++){
+      current = current!.next;
+    }
+
+    current!.next = newNode
+    length += 1;
   }
 
   /** removeAt(idx): return & remove item at idx,
@@ -162,6 +205,14 @@ class LLStr {
    **/
 
   removeAt(idx: number): string {
+    if(idx < 0 || idx >= this.length){
+      throw new IndexError;
+    }
+    //idx is zero - set head to the next item and return the head
+    //idx is equal to length?  - set the tail to be the previous item
+
+    let current = this.head;
+
     return "x";
   }
 
